@@ -1,0 +1,59 @@
+# AWS Lab 1: Concept Review & Quiz Practice
+
+## Date:
+2025-09-29
+
+## Topics Covered:
+- EC2 Pricing Models: On-Demand, Reserved Instances, Spot Instances, Savings Plans
+- Dedicated Hosts vs Dedicated Instances
+- Capacity Reservations
+- Shared Responsibility Model
+- Instance Families: General Purpose, Compute Optimized, Memory Optimized, Storage Optimized
+- On-Premises vs Cloud
+
+---
+
+## Quiz Practice Summary
+
+### Strengths (Mastered Areas)
+- **Pricing Model Recognition:** Correctly identified On-Demand, Spot, Reserved Instances, and Savings Plans in multiple contexts.  
+- **Shared Responsibility Model:** Consistently understood that the customer manages security *in the cloud*, while AWS manages security *of the cloud*.  
+- **AWS Interaction Methods:** Correctly recalled AWS Management Console, CLI, and SDK.  
+- **Instance Families:** After retries, identified Compute Optimized, Memory Optimized, and Storage Optimized correctly.  
+
+---
+
+### Weaknesses (Needs Reinforcement)
+- **Dedicated Hosts vs Dedicated Instances:** Needed hints to recall subtle difference — Host = full server control, Instance = isolation only.  
+- **Capacity Reservations:** Took multiple retries to remember: **charged at On-Demand rates even if not used**.  
+- **Savings Plans Coverage:** Missed that Amazon RDS is *not covered*.  
+- **On-Premises Challenges:** Initially answered vaguely (“costs/resources”) — key points: **inflexibility** and **slow deployment/management**.  
+- **Pricing for predictable workloads with flexibility:** Confused Reserved Instances vs Savings Plans; correct answer: **Savings Plans** for flexible, predictable workloads.  
+
+---
+
+## Study Recommendations
+1. **Re-read:**
+   - Dedicated Hosts vs Dedicated Instances section.
+   - Capacity Reservations vs Reserved Instances vs Savings Plans.
+   - On-Premises vs Cloud benefits (focus on time and flexibility, not just cost).
+   - AWS Savings Plans coverage (note exclusions like Amazon RDS).
+
+2. **Active Recall Practice:**
+   - Create a **mini flash sheet** of key differences for Hosts vs Instances, RIs vs Savings Plans, and Capacity Reservations.
+   - Quiz yourself cold on those before labs.
+
+3. **Hands-On Application:**
+   - Use lab 1 to reinforce these concepts:
+     - Launch different instance types.
+     - Experiment with On-Demand vs Spot vs RIs.
+     - Observe billing and instance behaviors.
+
+---
+
+## Reflection
+- Cold quizzes revealed true retention; retries helped reinforce weak areas.  
+- Strengths are solid in **basic EC2 concepts, instance types, and shared responsibility**.  
+- Weaknesses are mostly **subtle distinctions in pricing options and control levels**, which will solidify with **hands-on labs and repeated review**.  
+- Documenting this process helps track growth and will serve as a **reference for future labs and projects**.
+
