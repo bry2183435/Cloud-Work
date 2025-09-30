@@ -1,0 +1,82 @@
+Goal
+
+Practice secure EC2 instance access and centralized management using SSH key pairs and AWS Systems Manager (SSM) Session Manager.
+
+1. Instances Launched
+Instance Type	Instance ID	Key Pair / IAM Role	Security Group
+Key Pair (SSH)	i-XXXXXXX	my-key.pem	Port 22 open
+SSM-managed	i-YYYYYYY	SSM_EC2_Role (AmazonSSMManagedInstanceCore)	All ports closed
+
+Screenshots:
+Within Photos Folder(SSH & SSM Access)
+
+2. Access Verification
+SSH Key Login (Key Pair Instance)
+
+Command used:
+
+ssh -i my-key.pem ec2-user@ec2-XXXX.compute-1.amazonaws.com
+
+
+Verification:
+
+whoami  
+
+
+Screenshot:
+
+Within Photos Folder(SSH & SSM Access)
+
+SSM Session Manager Login (SSM Instance)
+
+Steps:
+
+Go to EC2 → Instances → Connect → Session Manager → Connect.
+
+Run:
+
+whoami
+
+
+Screenshot:
+
+Within Photos Folder(SSH & SSM Access)
+
+CloudTrail Logging Verification
+
+Steps:
+
+Open CloudTrail → Event history.
+
+Filter by Event name = StartSession or by Resource ID = i-YYYYYYY.
+
+Confirm event shows:
+
+Event source: ssm.amazonaws.com
+
+Target instance ID matches your SSM instance
+
+Screenshot:
+
+Within Photos Folder(SSH & SSM Access)
+
+3. Security Notes
+Instance Type	Ports	IAM Role / Policy
+Key Pair (SSH)	Port 22 open	None
+SSM-managed	All ports closed	AmazonSSMManagedInstanceCore
+
+Screenshots:
+
+Within Photos Folder(SSH & SSM Access)
+
+4. Reflection / Lessons Learned
+
+Key Pair (SSH) provides direct access but opens port 22 → more exposed to attacks.
+
+SSM Session Manager requires no SSH keys and no open ports → reduces attack surface.
+
+CloudTrail logs SSM activity centrally, which is better for auditing and compliance.
+
+IAM roles with least privilege make managing access simpler and safer.
+
+Centralized session management (SSM + CloudTrail + CloudWatch) is recommended for production environments.
