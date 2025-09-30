@@ -1,0 +1,82 @@
+# Lab 1 — Public vs Private Subnets & NAT Gateway
+
+## Goal
+Understand subnet types, routing, and secure access patterns by deploying a public and private instance in AWS and configuring Apache web servers.
+
+---
+
+## VPC Setup
+
+- Created a VPC with:
+  - 1 Public Subnet
+  - 1 Private Subnet
+- AWS automatically handled:
+  - Internet Gateway (IGW) attachment
+  - Routing tables for subnets
+  - Availability Zone assignment
+
+---
+
+## Instance Setup
+
+### Public Instance
+- Launched a Linux EC2 instance in the public subnet.
+- Assigned an Elastic IP.
+- Security Group (SG) attached:
+  - Inbound:
+    - HTTP (80) from 0.0.0.0/0
+    - SSH (22) from 0.0.0.0/0
+    - All Traffic from 0.0.0.0/0 (for testing)
+  - Outbound:
+    - All Traffic to 0.0.0.0/0
+- Installed Apache (`httpd`) via user data to avoid manual configuration where possible.
+
+### Private Instance
+- Launched in private subnet.
+- No direct public IP.
+- Security Group restricted (internal traffic only).
+- Can reach the internet via NAT Gateway for updates (`yum update`) but not directly accessible externally.
+
+---
+
+## NAT Gateway
+- Deployed in the public subnet.
+- Allowed private subnet instance to reach the internet.
+
+---
+
+## Apache Configuration & Troubleshooting
+
+### Key Steps
+1. Stopped any old Apache processes:
+
+```bash
+sudo systemctl stop httpd
+sudo pkill -f httpd
+
+Removed conflicting default .conf files:
+
+sudo mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.bak
+
+
+Verified Apache httpd.conf:
+
+Listen 0.0.0.0:80
+# Ensure no duplicate Listen directives exist
+
+
+Restarted Apache:
+
+sudo systemctl start httpd
+sudo systemctl status httpd
+
+
+Verified listening:
+
+sudo lsof -i :80
+curl http://127.0.0.1
+
+
+Browser check:
+
+Accessed public instance via Elastic IP → Apache default page loaded.
