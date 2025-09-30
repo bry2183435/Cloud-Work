@@ -1,0 +1,49 @@
+## **2️⃣ Lab 1 Commands Reference (Markdown / Copyable)**
+
+```markdown
+# Lab 1 — Command Reference
+
+## Stop and clean Apache
+```bash
+sudo systemctl stop httpd
+sudo pkill -f httpd
+Check processes using port 80
+bash
+Copy code
+sudo lsof -i :80
+sudo netstat -tulnp | grep :80
+Backup default Apache config files
+bash
+Copy code
+sudo mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf.bak
+sudo mv /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.bak
+Edit main Apache config
+bash
+Copy code
+sudo vi /etc/httpd/conf/httpd.conf
+Ensure only one Listen directive:
+
+apache
+Copy code
+Listen 0.0.0.0:80
+Restart Apache
+bash
+Copy code
+sudo systemctl start httpd
+sudo systemctl status httpd
+Verify Apache is listening on IPv4 port 80
+bash
+Copy code
+sudo lsof -i :80
+curl http://127.0.0.1
+Check Linux firewall (if needed)
+bash
+Copy code
+sudo systemctl status firewalld
+sudo systemctl stop firewalld  # for testing only
+sudo iptables -L -n
+Network troubleshooting
+bash
+Copy code
+ping <Elastic-IP>      # Check connectivity from external PC
+telnet <Elastic-IP> 80 # Test port reachability
