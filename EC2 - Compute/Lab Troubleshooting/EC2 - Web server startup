@@ -1,0 +1,64 @@
+Lab 1 – EC2 Web Server Setup (Troubleshooting Journey)
+
+Objective: Launch an EC2 instance, install/configure Apache, and verify web server accessibility.
+
+Steps Taken & Issues Encountered:
+
+EC2 Instance Launch
+
+Started a t2.micro instance with Amazon Linux 2.
+
+Configured security group to allow inbound HTTP (port 80) and SSH (port 22).
+
+Apache Installation & Service Start
+
+Connected via SSH and ran:
+
+sudo yum update -y
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+
+Verified service status with:
+
+systemctl status httpd
+
+
+Document Root Configuration
+
+Created/edited index.html in /var/www/html/:
+
+echo "Hello from EC2 Web Server" | sudo tee /var/www/html/index.html
+
+
+Troubleshooting Connectivity
+
+Encountered a connection refused when accessing the public IP.
+
+Checked multiple areas:
+
+Apache logs (/var/log/httpd/error_log).
+
+Firewall/security group (confirmed HTTP open).
+
+Verified Apache was running on port 80:
+
+sudo lsof -i :80
+
+
+Restarted Apache and re-tested connectivity.
+
+Environment Factors
+
+Delays were partly due to a slow local machine (4GB RAM) and unstable WiFi, which caused page reloads and SSH drops.
+
+Resolution Path:
+
+Confirmed Apache is installed and running.
+
+Verified security group allowed HTTP traffic.
+
+Rechecked that index.html existed in the correct path.
+
+Repeatedly reboot or restart until the connection stabilizes.
