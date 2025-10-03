@@ -1,0 +1,131 @@
+Lab 4 — Full-Stack EC2 Deployment (Main Showcase)
+
+Author: Bryan Benoit
+Date: 2025-10-01
+Purpose: Combine networking, EC2 deployment, cost optimization, monitoring, and logging into a single, comprehensive AWS architecture.
+
+1. Architecture Overview
+
+Components:
+
+Component	Type / Notes
+VPC	Custom VPC with public/private subnets
+Subnets	Public (frontend, NAT), Private (backend)
+Route Tables	Configured for internet access and NAT routing
+Internet Gateway	Attached for public subnet traffic
+NAT Gateway	for private subnet outbound traffic
+EC2 Instances	Frontend, Backend, Management/Test
+Load Balancer	ALB with Target Groups and Health Checks
+Auto Scaling Group	for backend servers 
+Security Groups	Configured for SSH, HTTP, and service-specific traffic
+IAM Roles	Assigned for SSM access and CloudWatch/CloudTrail logging
+CloudWatch	Metrics for CPU, Memory, Disk, and custom alarms
+CloudTrail	Logs stored in S3
+S3 Bucket	For CloudTrail logs and CloudWatch logs
+2. EC2 Instances & Pricing
+Instance	Type	Pricing Option	Purpose / Notes
+Frontend	t2.micro	On-Demand	Hosts Apache/PHP frontend
+Backend	t2.micro	Spot / Reserved	API/database support
+Management/Test	t2.micro	SSM Only	Remote access via Session Manager
+
+Notes:
+
+Used AWS Pricing Calculator to estimate costs.
+
+Frontend On-Demand ensures predictable availability.
+
+Backend Spot/Reserved reduces cost for flexible workloads.
+
+
+3. Access & Security
+Feature	Status / Notes
+IAM Roles	SSMFullAccess / EC2 role assigned correctly
+SSH Key Pair	Configured for frontend / backend 
+SSM Access	Enabled for management/test instance
+Security Groups	Verified: HTTP 80, SSH 22
+Network ACLs	Default or configured to allow necessary traffic
+
+Notes:
+
+Private instances communicate externally via NAT gateway.
+
+Browser access verified via http://<public-ip>.
+
+Connection issues solved by understanding HTTP vs HTTPS defaults.
+
+4. Application Deployment
+
+Frontend:
+
+Apache installed, listening on port 80.
+
+Simple PHP/HTML page deployed for testing.
+
+Backend:
+
+API or database support (as per lab scope).
+
+Registered with ALB target group.
+
+Verification:
+
+curl http://localhost on instances ✅
+
+curl http://<public-ip> from local machine ✅
+
+ALB health checks passing ✅
+
+
+5. Monitoring & Logging
+
+CloudWatch:
+
+Metrics: CPU, Memory, Disk, Network, Custom Alarms.
+
+Alarms tested using low-load and metric math expressions.
+
+CloudTrail:
+
+Logs stored in S3 bucket.
+
+IAM role/policy allows CloudTrail to write logs.
+
+
+
+7. Troubleshooting / Lessons Learned
+
+Challenges:
+
+Apache not installed initially → httpd. Service not found.
+
+Browser access failed due to incorrect assumptions about HTTP vs. HTTPS.
+
+CloudWatch memory/disk metrics require CloudWatch Agent.
+
+Metric math for alarms required proper identifiers and threshold tuning.
+
+Solutions:
+
+Installed Apache, verified 0.0.0.0:80 binding.
+
+Manual http:// access confirmed frontend.
+
+Adjusted IF expressions for alarms to match low CPU load.
+
+Lessons Learned:
+
+Understanding IAM roles and service integration is crucial.
+
+Security groups, subnet routing, and instance binding must all align for access.
+
+Metric math requires a clear definition of identifiers.
+
+Lab complexity builds real-world troubleshooting skills.
+
+9. Reflection
+
+Lab 4 successfully combined networking, EC2 deployment, monitoring, and cost optimization.
+
+Minor troubleshooting reinforced real-world AWS problem-solving.
+
+This lab prepared me to understand full-stack cloud architecture, IAM, CloudWatch, CloudTrail, and cost management in practice.
